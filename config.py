@@ -1,3 +1,5 @@
+from pathlib import Path
+CACHE_PATH = Path("docs_cache.pkl")
 DATA_DIR = "data"
 
 # Chunking

@@ -1,40 +1,57 @@
 """ Load PDFs from the data folder into LangChain Documents. """ 
 
+import pickle
 from pathlib import Path
 from docling.document_converter import DocumentConverter
 from langchain_core.documents import Document
 
-from config import DATA_DIR
+from config import DATA_DIR, CACHE_PATH
 
 MIN_CHARS_THRESHOLD = 1000
 
-_converter = None 
+_converter = None  
 
-def _get_converter(): 
+
+def _get_converter():
     global _converter
     if _converter is None:
         _converter = DocumentConverter()
     return _converter
+
 
 def load_pdf(pdf_path):
     converter = _get_converter()
     result = converter.convert(pdf_path)
     markdown = result.document.export_to_markdown()
     return Document(page_content=markdown, metadata={"source": pdf_path})
-    
+
+
 def load_all_pdfs(data_dir):
     pdf_paths = list(Path(data_dir).glob("*.pdf"))
-    documents = [ ]
+    documents = []
     for path in pdf_paths:
         print(f"Processing {path.name}...")
         doc = load_pdf(path)
-        if len(doc.page_content) < 1000:
+        if len(doc.page_content) < MIN_CHARS_THRESHOLD:
             print(f"warning: {path} extracted only {len(doc.page_content)} characters - likely a parse failure")
         documents.append(doc)
-    return documents 
+    return documents
+
+
+def load_all_pdfs_cached(data_dir):
+    if CACHE_PATH.exists():
+        print("Loading documents from cache...")
+        with open(CACHE_PATH, "rb") as f:
+            return pickle.load(f)
+
+    docs = load_all_pdfs(data_dir)
+    with open(CACHE_PATH, "wb") as f:
+        pickle.dump(docs, f)
+    return docs
+
 
 if __name__ == "__main__":
-    docs = load_all_pdfs(DATA_DIR)
+    docs = load_all_pdfs_cached(DATA_DIR)
     print(f"Loaded {len(docs)} documents")
     for d in docs:
         print(d.metadata["source"], "-", len(d.page_content), "chars")
