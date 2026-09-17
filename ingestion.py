@@ -23,7 +23,7 @@ def load_pdf(pdf_path):
     converter = _get_converter()
     result = converter.convert(pdf_path)
     markdown = result.document.export_to_markdown()
-    return Document(page_content=markdown, metadata={"source": pdf_path})
+    return Document(page_content=markdown, metadata={"source": str(pdf_path)})
 
 
 def load_all_pdfs(data_dir):

@@ -1,6 +1,7 @@
 from pathlib import Path
 CACHE_PATH = Path("docs_cache.pkl")
 DATA_DIR = "data"
+CHROMA_PERSIST_DIR = "chroma_db"
 
 # Chunking
 CHUNK_SIZE = 700
