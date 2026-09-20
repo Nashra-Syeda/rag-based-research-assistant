@@ -7,14 +7,16 @@ from dotenv import load_dotenv
 from config import GROQ_MODEL_NAME
 
 def build_prompt(chunks, question):
-    context = " "
+    context = ""
 
     for chunk in chunks:
         context = context + f"{chunk.metadata['source']}\n{chunk.page_content}\n\n"
 
-    prompt = f"Context:{context}\nQuestion:{question}\nIntructions: answer only using the provided context + mention the relevant source"
+    prompt = f"""Context: {context}
+Question: {question}
+Instructions: Answer ONLY using the provided context above. If the context does not contain information relevant to answering the question, respond exactly with: "I don't have enough relevant information in the provided documents to answer this question." Do not use outside knowledge. Always mention which source(s) you used."""
 
-    return prompt 
+    return prompt
 
 load_dotenv()
 

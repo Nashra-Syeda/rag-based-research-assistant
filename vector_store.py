@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     docs = load_all_pdfs_cached(DATA_DIR)
     chunks = get_chunks(docs)
-    vectorstore = build_vectorstore(chunks[:5])
+    vectorstore = build_vectorstore(chunks)  
     print("Vectorstore built.")
 
     store = get_vectorstore()
