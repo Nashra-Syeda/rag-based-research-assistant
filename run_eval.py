@@ -6,6 +6,8 @@ from hybrid_retrieval import hybrid_retriever, retrieve_hybrid
 from ingestion import load_all_pdfs_cached
 from chunking import get_chunks
 from config import DATA_DIR
+from reranking import rerank
+
 
 documents = load_all_pdfs_cached(DATA_DIR)
 chunks = get_chunks(documents)
@@ -17,6 +19,7 @@ for item in EVAL_QUESTIONS:
 
     question = item["question"]
     retrieved_chunks = retrieve_hybrid(retriever, question)
+    retrieved_chunks = rerank(question, retrieved_chunks, 3)
     actual_sources = [chunk.metadata["source"] for chunk in retrieved_chunks]
     expected_source = item["expected_source"]
     prompt = build_prompt(retrieved_chunks, question)
