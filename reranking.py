@@ -1,4 +1,4 @@
-""" Cross-Encoder reranking to narrow hybrid retrieval results to the most relevant chunks. """
+""" Cross-Encoder Reranking to narrow hybrid retrieval results to the most relevant chunks. """
 
 from sentence_transformers import CrossEncoder
 from config import RERANKER_MODEL_NAME

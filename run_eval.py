@@ -1,4 +1,4 @@
-""" Test all the eval questions """
+""" Test all the eval questions. """
 
 from eval_questions import EVAL_QUESTIONS
 from generation import build_prompt, call_llm
