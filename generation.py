@@ -14,8 +14,7 @@ def build_prompt(chunks, question):
 
     prompt = f"""Context: {context}
 Question: {question}
-Instructions: Answer ONLY using the provided context above. If the context does not contain information relevant to answering the question, respond exactly with: "I don't have enough relevant information in the provided documents to answer this question." Do not use outside knowledge. Always mention which source(s) you used."""
-
+Instructions: Answer ONLY using facts explicitly stated in the context above. Do not add explanations, comparisons, or background information that is not directly present in the context, even if it seems helpful or you know it to be true. Every sentence in your answer must be directly traceable to the context. If the context does not contain information relevant to answering the question, respond exactly with: "I don't have enough relevant information in the provided documents to answer this question." Always mention which source(s) you used."""
     return prompt
 
 load_dotenv()
