@@ -12,7 +12,6 @@ from config import DATA_DIR
 
 app = FastAPI()
 
-# Expensive setup — runs ONCE when the server starts, not per-request
 documents = load_all_pdfs_cached(DATA_DIR)
 chunks = get_chunks(documents)
 retriever = hybrid_retriever(chunks)
@@ -20,7 +19,6 @@ retriever = hybrid_retriever(chunks)
 
 class Question(BaseModel):
     question: str
-
 
 @app.post("/ask")
 def ask(request: Question):
