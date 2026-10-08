@@ -1,4 +1,4 @@
-# RAG Research Paper Assistant
+# RAG Based Research Paper Assistant
 
 A retrieval-augmented question-answering system over a small corpus of foundational NLP/LLM papers. Ask a natural-language question and get a grounded answer with the source paper cited. The pipeline combines keyword and semantic retrieval, reranks the candidates with a cross-encoder, and generates the final answer with an LLM that is instructed to stay inside the retrieved context.
 
